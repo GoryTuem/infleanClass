@@ -1,9 +1,8 @@
 import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
-import { AppProps } from "next/app";
+import type { AppProps } from "next/app";
 
-function MyApp({ Component }: AppProps) {
+function MyApp({ Component }: AppProps): JSX.Element {
   const client = new ApolloClient({
-    //api 주소 등록
     uri: "http://practice.codebootcamp.co.kr/graphql",
     cache: new InMemoryCache(),
   });
