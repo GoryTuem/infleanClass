@@ -10,7 +10,12 @@ const textMap: userType = {
   login: "로그인",
   register: "회원가입",
 };
-export default function AuthTemplate(props: any) {
+
+interface IAuthProps {
+  children: JSX.Element;
+  type: string;
+}
+export default function AuthTemplate(props: IAuthProps) {
   const text = textMap[props.type];
 
   return (

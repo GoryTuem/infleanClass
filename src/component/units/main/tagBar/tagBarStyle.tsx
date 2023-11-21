@@ -27,3 +27,7 @@ export const selectedTag = {
   color: "rgb(34, 149, 255)",
   fontWeight: 600,
 };
+export const Tag = {
+  backgroundColor: "rgb(255, 255, 255)",
+  color: "rgb(153, 153, 153)",
+};

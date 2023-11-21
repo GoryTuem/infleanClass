@@ -1,6 +1,5 @@
 import LayoutHeader from "./header";
 import LayoutBanner from "./banner";
-import LayoutNavigation from "./navigation";
 import LayoutTapbar from "./tapbar";
 import LayoutFooter from "./footer";
 import { useRouter } from "next/router";
@@ -21,7 +20,6 @@ export default function Layout(props: ILayoutProps) {
         {!isHiddenHeader && <LayoutHeader />}
         {/* 메인에서만 배너 노출 */}
         {router.asPath === "/" && <LayoutBanner />}
-        {router.asPath === "/" && <LayoutNavigation />}
         <div>{props.children}</div>
         {router.asPath === "/" && <LayoutFooter />}
         <div style={{ height: "60px" }}></div>
