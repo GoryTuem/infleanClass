@@ -1,10 +1,32 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
+import styled from "@emotion/styled";
+
+const Row = styled.div`
+  height: calc(100% + 30px);
+  width: 640px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+`;
+
+const Column = styled.div`
+  width: 33%;
+  aspect-ratio: 5 / 5;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  margin-bottom: 3px;
+`;
+
+const mainImg = {
+  width: "100%",
+  height: "100%",
+};
 
 export default function Home() {
-  //자바 스크립트
-  let aaa = 3;
-
   //html 코드
   return (
     <div className={styles.container}>
@@ -15,9 +37,28 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className={styles.main}>
-        <h1 className={styles.title}>이 글자가 잘 나오는지 확인</h1>
-      </main>
+      <>
+        <Row>
+          <Column>
+            <img src="/image/mainImage7.jpeg" style={mainImg} alt="Image 1" />
+          </Column>
+          <Column>
+            <img src="/image/mainImage2.jpg" style={mainImg} alt="Image 2" />
+          </Column>
+          <Column>
+            <img src="/image/mainImage3.jpg" style={mainImg} alt="Image 3" />
+          </Column>
+          <Column>
+            <img src="/image/mainImage4.jpg" style={mainImg} alt="Image 1" />
+          </Column>
+          <Column>
+            <img src="/image/mainImage5.jpg" style={mainImg} alt="Image 2" />
+          </Column>
+          <Column>
+            <img src="/image/mainImage1.jpg" style={mainImg} alt="Image 3" />
+          </Column>
+        </Row>
+      </>
     </div>
   );
 }
