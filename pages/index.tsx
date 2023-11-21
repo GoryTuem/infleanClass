@@ -1,6 +1,7 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import styled from "@emotion/styled";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const Row = styled.div`
   height: calc(100% + 30px);
