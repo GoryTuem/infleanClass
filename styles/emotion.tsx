@@ -4,6 +4,9 @@ export const Container = styled.div`
   position: relative;
   width: 640px;
   margin: 0 auto;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 export const Wrapper = styled.div``;

@@ -31,7 +31,7 @@ export default function MainTagBar(props: IMainProps) {
           <s.TagBox
             key={key}
             id={key}
-            style={props.tag === key ? s.selectedTag : s.Tag}
+            className={props.tag === key ? "active" : ""}
             onClick={changeTag}
           >
             {value}

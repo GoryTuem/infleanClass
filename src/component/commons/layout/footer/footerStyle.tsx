@@ -5,6 +5,10 @@ export const Wrapper = styled.div`
   background-color: rgba(242, 244, 247, 0.6);
   border-top: 1px solid #ebeef2;
   font-size: 14px;
+
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 export const FooterNav = styled.nav`

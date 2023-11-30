@@ -11,6 +11,10 @@ export const Wrapper = styled.div`
   width: 640px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 export const boxStyle = {

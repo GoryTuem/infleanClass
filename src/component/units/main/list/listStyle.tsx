@@ -8,6 +8,9 @@ export const Row = styled.div`
   justify-content: space-between;
   align-items: flex-start;
   flex-wrap: wrap;
+  @media screen and (max-width: 767px) {
+    width: 100%;
+  }
 `;
 
 export const Column = styled.div`

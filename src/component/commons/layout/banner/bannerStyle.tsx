@@ -5,6 +5,6 @@ export const Wrapper = styled.div`
   background-color: skyblue;
 `;
 export const ImageItem = styled.img`
-  height: 500px;
+  height: auto;
   width: 100%;
 `;

@@ -5,14 +5,14 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useState } from "react";
 import type { ChangeEvent } from "react";
-import { useRouter } from "next/router";
+import { useMoveToPage } from "../../commons/hooks/useMoveToPage";
 
 export default function LoginForm() {
   const [buttonState, setButtonState] = useState(true);
   const [userEmail, setUserEmail] = useState(""); //ID 저장
   const [userPasswd, setUserPass] = useState(""); //Pass 저장
+  const { onClickMoveToPage } = useMoveToPage();
 
-  const router = useRouter();
   function handleEmail(e: ChangeEvent<HTMLInputElement>) {
     const idValue = e.target.value;
     setUserEmail(e.target.value);
@@ -28,10 +28,6 @@ export default function LoginForm() {
       ? setButtonState(false)
       : setButtonState(true);
   }
-
-  const goJoin = () => {
-    void router.push("/join");
-  };
 
   return (
     <s.Form>
@@ -70,7 +66,9 @@ export default function LoginForm() {
         <s.LoginBottom>
           <s.LoginText>아이디 찾기 |</s.LoginText>
           <s.LoginText>비밀번호 찾기 |</s.LoginText>
-          <s.LoginText onClick={goJoin}>회원가입</s.LoginText>
+          <s.LoginText onClick={onClickMoveToPage("/join")}>
+            회원가입
+          </s.LoginText>
         </s.LoginBottom>
       </Form>
     </s.Form>

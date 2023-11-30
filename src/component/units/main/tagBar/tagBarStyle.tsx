@@ -1,33 +1,29 @@
 import styled from "@emotion/styled";
 
 export const Wrapper = styled.div`
-  height: 100px;
+  margin: 20px 0;
 `;
 export const TagBox = styled.span`
   height: 32px;
-  border: 1px solid rgb(238, 238, 238);
-  border-radius: 8px;
-  font-size: 14px;
-  line-height: 28px;
+  border-radius: 15px;
+  font-size: 13px;
+  line-height: 31px;
   padding: 0px 10px;
   word-break: keep-all;
   white-space: nowrap;
-  color: rgb(153, 153, 153);
+  color: rgb(78, 78, 78);
   cursor: pointer;
   margin: 0 5px;
+  background-color: #f8f9fb;
+
+  &.active {
+    color: white;
+    background-color: #ff6e81;
+    font-weight: 600;
+  }
 `;
 export const boxStyle = {
   width: "100%",
   height: 60,
   borderRadius: 6,
-};
-
-export const selectedTag = {
-  backgroundColor: "rgb(238, 247, 255)",
-  color: "rgb(34, 149, 255)",
-  fontWeight: 600,
-};
-export const Tag = {
-  backgroundColor: "rgb(255, 255, 255)",
-  color: "rgb(153, 153, 153)",
 };
