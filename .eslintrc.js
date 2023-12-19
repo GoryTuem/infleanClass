@@ -28,5 +28,8 @@ module.exports = {
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/triple-slash-reference": "off",
     "spaced-comment": "off",
+    "react/display-name": "off",
+    "@typescript-eslint/await-thenable": "off",
+    "@typescript-eslint/return-await": "off",
   },
 };

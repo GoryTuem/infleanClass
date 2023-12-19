@@ -24,14 +24,18 @@
     "react": "17.0.2",
     "react-bootstrap": "^2.9.1",
     "react-bootstrap-icons": "^1.10.3",
+    "react-cookie": "^6.1.1",
     "react-daum-postcode": "^3.1.3",
     "react-dom": "17.0.2",
     "react-icons": "^4.12.0",
     "react-indiana-drag-scroll": "^2.2.0",
     "react-infinite-scroller": "^1.2.6",
+    "react-router-dom": "^6.20.1",
+    "recoil": "^0.7.7",
     "styled-components": "^6.1.1",
     "swiper": "6.8.4",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^5.0.0",
@@ -52,5 +56,6 @@
   },
   "resolutions": {
     "@types/react": "17.0.2"
-  }
+  },
+  "proxy": "http://localhost:8080"
 }

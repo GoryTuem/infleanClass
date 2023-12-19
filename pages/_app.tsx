@@ -3,6 +3,7 @@ import Layout from "../src/component/commons/layout";
 import { Global } from "@emotion/react";
 import { globalStyles } from "../src/commons/styles/globalStyles";
 import Head from "next/head";
+
 function MyApp({ Component }: AppProps): JSX.Element {
   return (
     <>

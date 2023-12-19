@@ -61,6 +61,8 @@ export const BoxItem = styled.a`
   gap: 4px;
   flex: 1;
   cursor: pointer;
+  text-decoration: none;
+  color: #454545;
 `;
 
 export const Hr = styled.hr`

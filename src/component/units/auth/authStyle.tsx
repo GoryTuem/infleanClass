@@ -55,3 +55,8 @@ export const CheckBox = styled.input`
   cursor: pointer;
   margin-right: 5px;
 `;
+
+export const AlertMsg = styled.span`
+  color: #fa2c2c;
+  margin-top: 5px;
+`;

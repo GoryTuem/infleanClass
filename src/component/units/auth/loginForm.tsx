@@ -6,28 +6,45 @@ import Col from "react-bootstrap/Col";
 import { useState } from "react";
 import type { ChangeEvent } from "react";
 import { useMoveToPage } from "../../commons/hooks/useMoveToPage";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { useUserStore } from "../../commons/store";
 
 export default function LoginForm() {
-  const [buttonState, setButtonState] = useState(true);
   const [userEmail, setUserEmail] = useState(""); //ID 저장
   const [userPasswd, setUserPass] = useState(""); //Pass 저장
   const { onClickMoveToPage } = useMoveToPage();
-
+  const router = useRouter();
   function handleEmail(e: ChangeEvent<HTMLInputElement>) {
-    const idValue = e.target.value;
     setUserEmail(e.target.value);
-    idValue.includes("@") && userPasswd.length >= 5
-      ? setButtonState(false)
-      : setButtonState(true);
   }
 
   function handlePasswd(e: ChangeEvent<HTMLInputElement>) {
-    const passValue = e.target.value;
     setUserPass(e.target.value);
-    userEmail.includes("@") && passValue.length >= 5
-      ? setButtonState(false)
-      : setButtonState(true);
   }
+
+  const { setUser } = useUserStore();
+
+  const onClickLogin = async () => {
+    const param = {
+      mem_email: userEmail,
+      mem_password: userPasswd,
+    };
+
+    await axios
+      .post("http://localhost:8080/api/auth/login", param)
+      .then(function (response) {
+        localStorage.setItem("accessToken", response.data.accessToken);
+        localStorage.setItem("refreshToken", response.data.refreshToken);
+
+        setUser(response.data);
+        void router.push("/");
+      })
+      .catch(function (error) {
+        console.log(error);
+        alert("로그인에 실패하였습니다.");
+      });
+  };
 
   return (
     <s.Form>
@@ -56,9 +73,9 @@ export default function LoginForm() {
         <div className="d-grid gap-1">
           <Button
             variant="secondary"
-            type="submit"
+            type="button"
             style={{ backgroundColor: "#313842", fontSize: "20px" }}
-            disabled={buttonState}
+            onClick={onClickLogin}
           >
             로그인
           </Button>
