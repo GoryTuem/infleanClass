@@ -32,7 +32,7 @@ export default function LoginForm() {
     };
 
     await axios
-      .post("http://localhost:8080/api/auth/login", param)
+      .post("http://43.200.6.109:8080/api/auth/login", param)
       .then(function (response) {
         localStorage.setItem("accessToken", response.data.accessToken);
         localStorage.setItem("refreshToken", response.data.refreshToken);

@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "http://localhost:8080",
+  baseURL: "http://43.200.6.109:8080",
 });
 
 instance.interceptors.request.use(function (config) {
@@ -24,7 +24,7 @@ instance.interceptors.response.use(
         // token refresh 요청
         await axios
           .post(
-            `http://localhost:8080/api/auth/refresh`, // token refresh api
+            `http://43.200.6.109:8080/api/auth/refresh`, // token refresh api
             { refreshToken },
           )
           .then(async function (response) {

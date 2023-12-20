@@ -193,7 +193,7 @@ export default function LoginPage() {
     };
 
     axios
-      .post("http://localhost:8080/api/auth/join", param)
+      .post("http://43.200.6.109:8080/api/auth/join", param)
       .then(function (response) {
         void router.push("/login");
       })
