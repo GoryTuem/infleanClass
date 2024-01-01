@@ -192,13 +192,14 @@ export default function LoginPage() {
       mem_phone: inputValue.phone,
     };
 
-    axios
-      .post("http://43.200.6.109:8080/api/auth/join", param)
+    await axios
+      .post("http://localhost:8080/api/auth/join", param)
       .then(function (response) {
-        void router.push("/login");
-      })
-      .catch(function (error) {
-        console.log(error);
+        if (response.data.success === true) {
+          void router.push("/login");
+        } else {
+          alert(response.data.message);
+        }
       });
   };
 

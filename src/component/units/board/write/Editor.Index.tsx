@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import * as s from "./Editor.Styles";
 import { MdClose } from "react-icons/md";
 import type { ChangeEvent, KeyboardEvent, MouseEvent } from "react";
@@ -9,24 +9,49 @@ import ScrollContainer from "react-indiana-drag-scroll";
 import { FaHashtag } from "react-icons/fa6";
 import { IoIosClose } from "react-icons/io";
 import { useMoveToPage } from "../../../commons/hooks/useMoveToPage";
+import { loginCheck } from "../../../commons/hooks/loginCheck";
+import Axios from "../../../commons/axios";
+import { useRouter } from "next/router";
 
 /* eslint-disable */
 interface IWriteProps {
   isNew: boolean;
 }
 
-const tagArray = {
-  outer: "아우터",
-  top: "상의",
-  bottom: "하의",
-  shoes: "신발",
-};
-
-export default function Editor(props: IWriteProps) {
-  const [showImages, setShowImages] = useState<string[]>([]);
+function Editor(props: IWriteProps) {
   const imageInputRef = useRef<HTMLInputElement | null>(null);
   const { onClickMoveToPage } = useMoveToPage();
+  const user = localStorage.getItem("accessToken");
+  const router = useRouter();
+  const [showImages, setShowImages] = useState<string[]>([]);
+  const [files, setFiles] = useState<File[]>([]);
+
   const [open, setOpen] = React.useState(false);
+  const [inputHashTag, setInputHashTag] = useState("");
+  const [hashTags, setHashTags] = useState<string[]>([]);
+  const [categories, SetCategories] = useState([
+    {
+      id: 0,
+      cate_name: "",
+    },
+  ]);
+
+  //카테고리 정보 가져오기
+  useEffect(() => {
+    async function userData() {
+      await Axios.get("/api/board/categoryList").then(function (response) {
+        const res = response.data;
+        if (res.success === true) {
+          SetCategories(res.data);
+        } else {
+          alert(res.message);
+        }
+      });
+    }
+    if (user) {
+      void userData();
+    }
+  }, []);
 
   const handleClose = () => {
     setOpen(false);
@@ -45,29 +70,31 @@ export default function Editor(props: IWriteProps) {
   const handleAddImages = (event: ChangeEvent<HTMLInputElement>) => {
     const imageLists = event.target.files;
     let imageUrlLists: string[] = [...showImages];
+    let filesList: File[] = [...files];
     if (imageLists != null) {
       for (let i = 0; i < imageLists.length; i++) {
         const currentImageUrl = URL.createObjectURL(imageLists[i]);
         imageUrlLists.push(currentImageUrl);
+        filesList.push(imageLists[i]);
       }
     }
 
     if (imageUrlLists.length > 10) {
       imageUrlLists = imageUrlLists.slice(0, 10);
+      filesList = filesList.slice(0, 10);
     }
 
     setShowImages(imageUrlLists);
+    setFiles(filesList);
   };
 
   // X버튼 클릭 시 이미지 삭제
   const handleDeleteImage = (id: number) => {
     setShowImages(showImages.filter((_, index) => index !== id));
+    setFiles(files.filter((_, index) => index !== id));
   };
 
   // 해시태그 구현
-  const [inputHashTag, setInputHashTag] = useState("");
-  const [hashTags, setHashTags] = useState<string[]>([]);
-
   const addHashTag = (e: KeyboardEvent<HTMLInputElement>) => {
     const allowedCommand = ["Comma", "Enter", "Space", "NumpadEnter"];
     if (!allowedCommand.includes(e.code)) return;
@@ -132,6 +159,29 @@ export default function Editor(props: IWriteProps) {
     setActive(e.currentTarget.id);
   };
 
+  const onSave = async () => {
+    const formData = new FormData();
+    files.forEach((image) => formData.append("files", image));
+    const value = {
+      tagList: hashTags.join(","),
+      categoryId: active,
+    };
+
+    formData.append(
+      "boardRequestDto",
+      new Blob([JSON.stringify(value)], {
+        type: "application/json",
+      }),
+    );
+
+    await Axios.post("/api/board/save", formData).then(function (response) {
+      if (response.data.success === true) {
+        router.push("/myPage");
+      } else {
+        alert(response.data.message);
+      }
+    });
+  };
   return (
     <>
       <s.EditorHeader>
@@ -140,7 +190,7 @@ export default function Editor(props: IWriteProps) {
           onClick={onClickMoveToPage("/")}
         ></MdClose>
         <s.Title>{props.isNew ? "등록하기" : "수정하기"}</s.Title>
-        <s.Save>완료</s.Save>
+        <s.Save onClick={onSave}>완료</s.Save>
       </s.EditorHeader>
 
       <s.EditorBody>
@@ -217,14 +267,14 @@ export default function Editor(props: IWriteProps) {
         <s.Line></s.Line>
         <s.Title>카테고리 선택</s.Title>
         <s.CateList>
-          {Object.entries(tagArray).map(([key, value]) => (
+          {categories.map((item) => (
             <s.CateItem
-              key={key}
-              id={key}
-              className={active == key ? "active" : ""}
+              key={item.id}
+              id={item.id.toString()}
+              className={active == item.id.toString() ? "active" : ""}
               onClick={toggleActive}
             >
-              {value}
+              {item.cate_name}
             </s.CateItem>
           ))}
         </s.CateList>
@@ -232,3 +282,4 @@ export default function Editor(props: IWriteProps) {
     </>
   );
 }
+export default loginCheck(Editor);

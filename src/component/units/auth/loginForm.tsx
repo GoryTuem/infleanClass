@@ -3,7 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
 import { useMoveToPage } from "../../commons/hooks/useMoveToPage";
 import axios from "axios";
@@ -15,6 +15,7 @@ export default function LoginForm() {
   const [userPasswd, setUserPass] = useState(""); //Pass 저장
   const { onClickMoveToPage } = useMoveToPage();
   const router = useRouter();
+
   function handleEmail(e: ChangeEvent<HTMLInputElement>) {
     setUserEmail(e.target.value);
   }
@@ -23,7 +24,11 @@ export default function LoginForm() {
     setUserPass(e.target.value);
   }
 
-  const { setUser } = useUserStore();
+  const { setUser, removeUser } = useUserStore();
+
+  useEffect(() => {
+    removeUser();
+  }, []);
 
   const onClickLogin = async () => {
     const param = {
@@ -32,17 +37,18 @@ export default function LoginForm() {
     };
 
     await axios
-      .post("http://43.200.6.109:8080/api/auth/login", param)
+      .post("http://localhost:8080/api/auth/login", param)
       .then(function (response) {
-        localStorage.setItem("accessToken", response.data.accessToken);
-        localStorage.setItem("refreshToken", response.data.refreshToken);
+        const res = response.data;
+        if (res.success === true) {
+          localStorage.setItem("accessToken", res.data.accessToken);
+          localStorage.setItem("refreshToken", res.data.refreshToken);
 
-        setUser(response.data);
-        void router.push("/");
-      })
-      .catch(function (error) {
-        console.log(error);
-        alert("로그인에 실패하였습니다.");
+          setUser(res.data);
+          void router.push("/");
+        } else {
+          alert(res.message);
+        }
       });
   };
 

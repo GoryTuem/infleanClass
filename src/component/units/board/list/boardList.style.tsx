@@ -45,6 +45,7 @@ export const ItemBody = styled.div`
 
 export const ItemImg = styled.img`
   width: 100%;
+  height: 310px;
 `;
 
 export const Icon = styled(FaHotjar)`
@@ -90,4 +91,11 @@ export const UserId = styled.span`
   margin: 5px 0;
   font-size: 13px;
   font-weight: 600;
+`;
+
+export const descript = styled.p`
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 12px;
+  color: #898989;
 `;

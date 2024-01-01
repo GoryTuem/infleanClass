@@ -1,6 +1,5 @@
 import { useState } from "react";
 import TrendKeywordList from "../../src/component/units/board/list/List.index";
-import TrendKeywordItem from "../../src/component/units/board/list/Item.index";
 
 export default function BoardsPage() {
   const [tags, setTag] = useState<string[]>([]);
@@ -12,10 +11,17 @@ export default function BoardsPage() {
       return prevTags.filter((item) => item !== tag);
     });
   };
+  const AllDeleteTags = () => {
+    setTag([]);
+  };
   return (
     <>
-      <TrendKeywordList tags={tags} setTag={UpdateTags} delTag={DeleteTags} />
-      <TrendKeywordItem tags={tags} />
+      <TrendKeywordList
+        tags={tags}
+        setTag={UpdateTags}
+        delTag={DeleteTags}
+        allDelTag={AllDeleteTags}
+      />
     </>
   );
 }

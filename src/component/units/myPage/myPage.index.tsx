@@ -1,26 +1,32 @@
 import * as s from "./myPage.style";
 import { PiBookOpenTextThin, PiBellRingingThin } from "react-icons/pi";
-import { RiKakaoTalkFill } from "react-icons/ri";
+import { RiKakaoTalkFill, RiLogoutBoxRLine } from "react-icons/ri";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Axios from "../../commons/axios";
 import { loginCheck } from "../../commons/hooks/loginCheck";
 import { useUserStore } from "../../commons/store";
+import { useMoveToPage } from "../../commons/hooks/useMoveToPage";
 
 function MyPageComponent(): JSX.Element {
-  const { user } = useUserStore();
+  const { onClickMoveToPage } = useMoveToPage();
 
-  console.log(user?.mem_email);
+  const { removeUser } = useUserStore();
   const router = useRouter();
-
-  const accessToken = process.browser
-    ? localStorage.getItem("accessToken")
-    : "";
+  const user = localStorage.getItem("accessToken");
+  const [myData, setMyData] = useState({
+    mem_email: "",
+    mem_name: "",
+    mem_nickname: "",
+    writeCount: 0,
+    likeCount: 0,
+  });
 
   const logout = () => {
     Axios.post("/api/auth/logout")
       .then(function () {
         localStorage.removeItem("accessToken");
+        removeUser();
         void router.push("/");
       })
       .catch(function (error) {
@@ -29,23 +35,35 @@ function MyPageComponent(): JSX.Element {
   };
 
   useEffect(() => {
-    if (accessToken) {
-      Axios.post("/api/user/mypage")
-        .then(function (response) {})
-        .catch(function (error) {
-          alert(error);
-        });
+    async function userData() {
+      await Axios.get("/api/user/mypage").then(function (response) {
+        const res = response.data;
+        if (res.success === true) {
+          setMyData(res.data);
+        } else {
+          alert(res.message);
+        }
+      });
+    }
+    if (user) {
+      void userData();
     }
   }, []);
+
   return (
     <>
-      {accessToken && (
+      {user && (
         <div>
           <s.MyPageUserWrapper>
-            <s.UserTitle>
+            <div>
               <s.ProfileIcon />
-              <span>소희</span>님<s.Icon />
-            </s.UserTitle>
+              <s.UserTitle>
+                <p>{myData.mem_email}</p>
+                <span>
+                  {myData.mem_name}님<s.Icon />
+                </span>
+              </s.UserTitle>
+            </div>
           </s.MyPageUserWrapper>
           <s.EventBanner>
             {" "}
@@ -56,17 +74,17 @@ function MyPageComponent(): JSX.Element {
             <s.MyPageBody>
               <s.Title>나의 활동</s.Title>
               <s.Box>
-                <s.BoxItem>
+                <s.BoxItem onClick={onClickMoveToPage("/myPage/board")}>
                   <span>작성한 글</span>
                   <span>
-                    <b>5</b>
+                    <b>{myData.writeCount}</b>
                   </span>
                 </s.BoxItem>
                 <s.Hr />
-                <s.BoxItem>
+                <s.BoxItem onClick={onClickMoveToPage("/myPage/like")}>
                   <span>좋아요한 스타일</span>
                   <span>
-                    <b>10</b>
+                    <b>{myData.likeCount}</b>
                   </span>
                 </s.BoxItem>
               </s.Box>
@@ -89,9 +107,13 @@ function MyPageComponent(): JSX.Element {
                     <s.ButtonText>1:1 카카오톡 상담 </s.ButtonText>
                     <s.ButtonArrowIcon />
                   </s.Button>
+                  <s.Button onClick={logout}>
+                    <RiLogoutBoxRLine style={s.ButtonIcon} />
+                    <s.ButtonText>로그아웃</s.ButtonText>
+                    <s.ButtonArrowIcon />
+                  </s.Button>
                 </s.Li>
               </s.Ul>
-              <p onClick={logout}>로그아웃</p>
             </s.MyPageBody>
           </s.MyPageBodyWrapper>
         </div>

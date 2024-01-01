@@ -3,7 +3,7 @@ import { PiCaretRightThin } from "react-icons/pi";
 import { BsPersonCircle } from "react-icons/bs";
 
 export const MyPageUserWrapper = styled.div`
-  padding: 15% 5% 5%;
+  padding: 13% 5% 9%;
 `;
 
 export const MyPageBodyWrapper = styled.div`
@@ -13,8 +13,11 @@ export const MyPageBodyWrapper = styled.div`
 export const UserTitle = styled.div`
   font-size: 19px;
   color: #454545;
+  display: inline-block;
+  vertical-align: middle;
 
   & > span {
+    margin-top: 2px;
     font-size: 20px;
     font-weight: 600;
   }

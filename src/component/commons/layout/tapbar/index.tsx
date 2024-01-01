@@ -33,7 +33,7 @@ export default function LayoutFooter() {
           <FcLike
             color="white"
             style={s.iconStyle}
-            onClick={onClickMoveToPage("/likes")}
+            onClick={onClickMoveToPage("/myPage/like")}
           ></FcLike>
         </span>
         <span

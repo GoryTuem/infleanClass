@@ -57,5 +57,5 @@
   "resolutions": {
     "@types/react": "17.0.2"
   },
-  "proxy": "http://43.200.6.109:8080"
+  "proxy": "http://localhost:8080"
 }

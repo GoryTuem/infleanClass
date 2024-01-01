@@ -17,3 +17,9 @@ export const Icon = styled(PiFlowerFill)`
   margin-right: 5px;
   vertical-align: middle;
 `;
+export const noContent = styled.div`
+  padding: 35% 10px;
+  text-align: center;
+  font-size: 16px;
+  background: #f8f8f8;
+`;
